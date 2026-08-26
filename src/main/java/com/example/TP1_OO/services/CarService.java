@@ -1,13 +1,24 @@
 package com.example.TP1_OO.services;
 
 import com.example.TP1_OO.models.Car;
+import com.example.TP1_OO.models.Dates;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CarService {
-	private List<Car> cars;
+@RestController
+@Service
+public class CarService implements RentalService{
+	private final List<Car> cars = new ArrayList<>();
+
+	public CarService() {
+		cars.add(new Car("11AA22", "Ferrari", 100, false));
+		cars.add(new Car("22AA33", "Porsche", 90, false));
+	}
 
 	public Car findCar(String plateNumber){
 		for(Car car : cars){
@@ -15,25 +26,20 @@ public class CarService {
 				return car;
 			}
 		}
-		return null;
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No car with plate number " + plateNumber);
 	}
 
-	@GetMapping("/cars")
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
+	@Override
 	public List<Car> listOfCars(){
-		return cars;
+		return cars.stream().filter(car -> !car.isRent()).toList();
 	}
 
-	@GetMapping("/cars/{plateNumber}")
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
+	@Override
 	public Car aCar(@PathVariable("plateNumber") String plateNumber) throws Exception{
 		return findCar(plateNumber);
 	}
 
-	@PutMapping(value = "/cars/{plateNumber}")
-	@ResponseStatus(HttpStatus.OK)
+	@Override
 	public void rentOrGetBack(
 			@PathVariable("plateNumber") String plateNumber,
 			@RequestParam(value="rent", required = true)boolean rent,
@@ -43,8 +49,7 @@ public class CarService {
 
 		if(rent){
 			if (car.isRent()) {
-				System.out.println(car.getPlateNumber() + " is already rented");
-			}
+				throw new ResponseStatusException(HttpStatus.CONFLICT, "Car " + plateNumber + " is already rented");			}
 			else {
 				car.setRent(true);
 				car.setBegin(dates.getBegin());
