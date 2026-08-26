@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
 @Service
 public class CarService implements RentalService{
 	private final List<Car> cars = new ArrayList<>();

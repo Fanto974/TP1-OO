@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface RentalService {
+
 	@GetMapping("/cars")
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
