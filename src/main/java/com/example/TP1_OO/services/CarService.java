@@ -48,7 +48,12 @@ public class CarService implements RentalService{
 
 		if(rent){
 			if (car.isRent()) {
-				throw new ResponseStatusException(HttpStatus.CONFLICT, "Car " + plateNumber + " is already rented");			}
+				throw new ResponseStatusException(HttpStatus.CONFLICT, "Car " + plateNumber + " is already rented");
+			}
+			else if (dates == null) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+						"Rental dates are required to rent a car");
+			}
 			else {
 				car.setRent(true);
 				car.setBegin(dates.getBegin());

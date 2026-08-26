@@ -19,6 +19,12 @@ public class RentalWebService {
 		return rentalService.listOfCars();
 	}
 
+	@GetMapping("/cars/{plateNumber}")
+	@ResponseStatus(HttpStatus.OK)
+	public Car aCar(@PathVariable("plateNumber") String plateNumber) throws Exception {
+		return rentalService.aCar(plateNumber);
+	}
+
 	@PutMapping("/cars/{plateNumber}")
 	@ResponseStatus(HttpStatus.OK)
 	public void rentOrGetBack(
