@@ -1,5 +1,6 @@
-package com.example.TP1_OO;
+package com.example.TP1_OO.services;
 
+import com.example.TP1_OO.models.Car;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,19 +36,25 @@ public class CarService {
 	@ResponseStatus(HttpStatus.OK)
 	public void rentOrGetBack(
 			@PathVariable("plateNumber") String plateNumber,
-			@RequestParam(value="rent", required = true)boolean rent) throws Exception{
+			@RequestParam(value="rent", required = true)boolean rent,
+			@RequestBody Dates dates){
 
 		Car car = findCar(plateNumber);
 
 		if(rent){
-			if ()
+			if (car.isRent()) {
+				System.out.println(car.getPlateNumber() + " is already rented");
+			}
+			else {
+				car.setRent(true);
+				car.setBegin(dates.getBegin());
+				car.setEnd(dates.getEnd());
+			}
 		}
-	}
-
-	@PutMapping(value = "/cars/{plateNumber}")
-	public void rent(
-			@PathVariable("plateNumber") String plateNumber,
-			@RequestParam(value="rent", required = true)boolean rent,
-			@RequestBody Dates dates){
+		else {
+			car.setRent(false);
+			car.setBegin(null);
+			car.setEnd(null);
+		}
 	}
 }

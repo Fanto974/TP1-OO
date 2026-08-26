@@ -1,10 +1,13 @@
-package com.example.TP1_OO;
+package com.example.TP1_OO.models;
 
 public class Car {
 	private String plateNumber;
 	private String brand;
 	private int price;
+
 	private boolean isRented = false;
+	private String begin;
+	private String end;
 
 	public Car(String plateNumber, String brand, int price, boolean isRented) {
 		this.plateNumber = plateNumber;
@@ -38,5 +41,17 @@ public class Car {
 	}
 	public void setRent(boolean rent) {
 		this.isRented = rent;
+	}
+	public String getBegin() {
+		return begin;
+	}
+	public void setBegin(String begin) {
+		this.begin = begin;
+	}
+	public String getEnd() {
+		return end;
+	}
+	public void setEnd(String end) {
+		this.end = end;
 	}
 }
