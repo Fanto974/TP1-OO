@@ -1,11 +1,11 @@
 package com.example.TP1_OO.services;
 
+import com.example.TP1_OO.exeptions.CarAlreadyRentedExeption;
+import com.example.TP1_OO.exeptions.MissingRentalDatesExeption;
 import com.example.TP1_OO.models.Car;
 import com.example.TP1_OO.models.Dates;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class CarService implements RentalService{
 				return car;
 			}
 		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No car with plate number " + plateNumber);
+		throw new CarAlreadyRentedExeption(plateNumber);
 	}
 
 	@Override
@@ -34,25 +34,21 @@ public class CarService implements RentalService{
 	}
 
 	@Override
-	public Car aCar(@PathVariable("plateNumber") String plateNumber) throws Exception{
+	public Car aCar(String plateNumber){
 		return findCar(plateNumber);
 	}
 
 	@Override
-	public void rentOrGetBack(
-			@PathVariable("plateNumber") String plateNumber,
-			@RequestParam(value="rent", required = true)boolean rent,
-			@RequestBody Dates dates){
+	public void rentOrGetBack(String plateNumber, boolean rent, Dates dates){
 
 		Car car = findCar(plateNumber);
 
 		if(rent){
 			if (car.isRent()) {
-				throw new ResponseStatusException(HttpStatus.CONFLICT, "Car " + plateNumber + " is already rented");
+				throw new CarAlreadyRentedExeption(plateNumber);
 			}
 			else if (dates == null) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-						"Rental dates are required to rent a car");
+				throw new MissingRentalDatesExeption(plateNumber);
 			}
 			else {
 				car.setRent(true);

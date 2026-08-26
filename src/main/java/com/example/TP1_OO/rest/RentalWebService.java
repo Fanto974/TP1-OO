@@ -21,7 +21,7 @@ public class RentalWebService {
 
 	@GetMapping("/cars/{plateNumber}")
 	@ResponseStatus(HttpStatus.OK)
-	public Car aCar(@PathVariable("plateNumber") String plateNumber) throws Exception {
+	public Car aCar(@PathVariable("plateNumber") String plateNumber){
 		return rentalService.aCar(plateNumber);
 	}
 
