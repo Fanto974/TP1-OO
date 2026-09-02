@@ -18,6 +18,7 @@ import java.util.List;
 public class CarService implements RentalService{
 
 	private static final Logger log = LoggerFactory.getLogger(CarService.class);
+
 	private final CarRepository carRepository;
 
 	public CarService(CarRepository carRepository) {   // injection par constructeur
@@ -25,13 +26,20 @@ public class CarService implements RentalService{
 	}
 
 	public Car findCar(String plateNumber){
-		return carRepository.findByPlateNumber(plateNumber)
+		return carRepository.findById(plateNumber)
 				.orElseThrow(() -> new CarNotFoundExeption(plateNumber));
 	}
 
 	@Override
+	public void addCar(Car car) {
+		carRepository.save(car);
+	}
+
+	@Override
 	public List<Car> listOfCars(){
-		return carRepository.findAll().stream().filter(car -> !car.isRent()).toList();
+		return ((List<Car>) carRepository.findAll())
+				.stream()
+				.filter(car -> !car.isRent()).toList();
 	}
 
 	@Override
@@ -53,11 +61,11 @@ public class CarService implements RentalService{
 				throw new MissingRentalDatesExeption(plateNumber);
 			}
 			else {
-				car.rent(dates);
+				//
 			}
 		}
 		else {
-			car.returnCar();
+			//
 		}
 	}
 }

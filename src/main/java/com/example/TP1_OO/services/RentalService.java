@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface RentalService {
 
+	public void addCar(Car car);
+
 	public List<Car> listOfCars();
 
 	public Car aCar(String plateNumber);

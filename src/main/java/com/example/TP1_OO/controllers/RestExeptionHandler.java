@@ -1,4 +1,4 @@
-package com.example.TP1_OO.rest;
+package com.example.TP1_OO.controllers;
 
 import com.example.TP1_OO.exeptions.CarAlreadyRentedExeption;
 import com.example.TP1_OO.exeptions.CarNotFoundExeption;

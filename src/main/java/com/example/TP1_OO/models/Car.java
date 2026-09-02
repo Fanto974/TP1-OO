@@ -1,13 +1,20 @@
 package com.example.TP1_OO.models;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Car {
-	private final String plateNumber;
-	private final String brand;
-	private final int price;
+	@Id
+	private String plateNumber;
+
+	private String brand;
+
+	private int price;
 
 	private boolean isRented;
-	private String begin;
-	private String end;
+
+	public Car() {
+	}
 
 	public Car(String plateNumber, String brand, int price, boolean isRented) {
 		this.plateNumber = plateNumber;
@@ -27,23 +34,5 @@ public class Car {
 	}
 	public boolean isRent() {
 		return isRented;
-	}
-	public String getBegin() {
-		return begin;
-	}
-	public String getEnd() {
-		return end;
-	}
-
-	public void rent(Dates dates) {
-		this.isRented = true;
-		this.begin = dates.getBegin();
-		this.end = dates.getEnd();
-	}
-
-	public void returnCar() {
-		this.isRented = false;
-		this.begin = null;
-		this.end = null;
 	}
 }
