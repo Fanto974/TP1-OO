@@ -4,6 +4,7 @@ import com.example.TP1_OO.models.Car;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class CarRepository {
 	}
 
 	public List<Car> findAll() {
-		return cars;
+		return Collections.unmodifiableList(cars);
 	}
 
 	public Optional<Car> findByPlateNumber(String plateNumber) {

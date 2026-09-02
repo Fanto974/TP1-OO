@@ -53,15 +53,11 @@ public class CarService implements RentalService{
 				throw new MissingRentalDatesExeption(plateNumber);
 			}
 			else {
-				car.setRent(true);
-				car.setBegin(dates.getBegin());
-				car.setEnd(dates.getEnd());
+				car.rent(dates);
 			}
 		}
 		else {
-			car.setRent(false);
-			car.setBegin(null);
-			car.setEnd(null);
+			car.returnCar();
 		}
 	}
 }
