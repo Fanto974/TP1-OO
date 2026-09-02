@@ -1,36 +1,37 @@
 package com.example.TP1_OO.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.example.TP1_OO.exeptions.CarAlreadyRentedExeption;
 import com.example.TP1_OO.exeptions.MissingRentalDatesExeption;
+import com.example.TP1_OO.exeptions.CarNotFoundExeption;
 import com.example.TP1_OO.models.Car;
 import com.example.TP1_OO.models.Dates;
+import com.example.TP1_OO.repository.CarRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CarService implements RentalService{
-	private final List<Car> cars = new ArrayList<>();
 
-	public CarService() {
-		cars.add(new Car("11AA22", "Ferrari", 100, false));
-		cars.add(new Car("22AA33", "Porsche", 90, false));
+	private static final Logger log = LoggerFactory.getLogger(CarService.class);
+	private final CarRepository carRepository;
+
+	public CarService(CarRepository carRepository) {   // injection par constructeur
+		this.carRepository = carRepository;
 	}
 
 	public Car findCar(String plateNumber){
-		for(Car car : cars){
-			if(car.getPlateNumber().equals(plateNumber)){
-				return car;
-			}
-		}
-		throw new CarAlreadyRentedExeption(plateNumber);
+		return carRepository.findByPlateNumber(plateNumber)
+				.orElseThrow(() -> new CarNotFoundExeption(plateNumber));
 	}
 
 	@Override
 	public List<Car> listOfCars(){
-		return cars.stream().filter(car -> !car.isRent()).toList();
+		return carRepository.findAll().stream().filter(car -> !car.isRent()).toList();
 	}
 
 	@Override
@@ -40,6 +41,7 @@ public class CarService implements RentalService{
 
 	@Override
 	public void rentOrGetBack(String plateNumber, boolean rent, Dates dates){
+		log.info("Rental request: plateNumber={}, rent={}", plateNumber, rent);
 
 		Car car = findCar(plateNumber);
 
