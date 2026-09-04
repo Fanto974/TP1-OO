@@ -8,10 +8,9 @@ public class Car {
 	private String plateNumber;
 
 	private String brand;
-
 	private int price;
-
 	private boolean isRented;
+
 
 	public Car() {
 	}
@@ -35,4 +34,18 @@ public class Car {
 	public boolean isRent() {
 		return isRented;
 	}
+
+	public void setPlateNumber(String plateNumber) {
+		this.plateNumber = plateNumber;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public void setIsRented(boolean isRented) {
+		this.isRented = isRented;
+	}
+
 }

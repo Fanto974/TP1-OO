@@ -3,6 +3,7 @@ package com.example.TP1_OO.controllers;
 import com.example.TP1_OO.exeptions.CarAlreadyRentedExeption;
 import com.example.TP1_OO.exeptions.CarNotFoundExeption;
 import com.example.TP1_OO.exeptions.MissingRentalDatesExeption;
+import com.example.TP1_OO.exeptions.PersonneNotFoundExeption;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +31,11 @@ public class RestExeptionHandler {
 	@ExceptionHandler(MissingRentalDatesExeption.class)
 	public ResponseEntity<ApiError> handleMissingDates(MissingRentalDatesExeption ex) {
 		return build(HttpStatus.BAD_REQUEST, ex.getMessage());
+	}
+
+	@ExceptionHandler(PersonneNotFoundExeption.class)
+	public ResponseEntity<ApiError> handlePersonneNotFound(PersonneNotFoundExeption ex) {
+		return build(HttpStatus.NOT_FOUND, ex.getMessage());
 	}
 
 	@ExceptionHandler(Exception.class)
