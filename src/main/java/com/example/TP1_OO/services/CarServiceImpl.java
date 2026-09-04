@@ -14,6 +14,7 @@ import com.example.TP1_OO.repository.CarRepository;
 import com.example.TP1_OO.repository.ContratRepository;
 import com.example.TP1_OO.repository.PersonneRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -55,6 +56,7 @@ public class CarServiceImpl implements CarService {
 		return findCarById(plateNumber);
 	}
 
+	@Transactional
 	@Override
 	public void rentOrGetBack(String plateNumber, boolean rent, String personneTel, Date begin, Date end){
 		log.info("Rental request: plateNumber={}, rent={}", plateNumber, rent);
